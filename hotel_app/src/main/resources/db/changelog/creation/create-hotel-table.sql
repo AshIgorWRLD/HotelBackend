@@ -1,0 +1,1 @@
+CREATE TABLE "hotels" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "stars" smallint NOT NULL, "floorsTotal" smallint NOT NULL, "roomsForFloor" smallint array NOT NULL, CONSTRAINT "PK_2bb06797684115a1ba7c705fc7b" PRIMARY KEY ("id"));

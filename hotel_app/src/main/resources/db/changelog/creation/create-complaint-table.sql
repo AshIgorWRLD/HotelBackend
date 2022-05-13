@@ -1,0 +1,1 @@
+CREATE TABLE "complaints" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "text" text NOT NULL, "rate" smallint NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "userId" uuid, CONSTRAINT "PK_4b7566a2a489c2cc7c12ed076ad" PRIMARY KEY ("id"));

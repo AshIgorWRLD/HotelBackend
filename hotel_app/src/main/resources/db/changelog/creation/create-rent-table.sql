@@ -1,0 +1,2 @@
+CREATE TYPE "public"."rents_paymentstatus_enum" AS ENUM('1', '2', '3', '4');
+CREATE TABLE "rents" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "processingTime" TIMESTAMP WITH TIME ZONE NOT NULL, "expirationTime" TIMESTAMP WITH TIME ZONE NOT NULL, "totalPrice" integer NOT NULL, "paymentStatus" "public"."rents_paymentstatus_enum" NOT NULL DEFAULT '4', "isReservation" boolean NOT NULL, "userId" uuid, "apartmentId" uuid, CONSTRAINT "PK_43a9961f1448a8d75f9b25156ea" PRIMARY KEY ("id"));
