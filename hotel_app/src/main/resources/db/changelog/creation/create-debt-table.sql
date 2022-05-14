@@ -1,1 +1,0 @@
-CREATE TABLE "debts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" uuid, CONSTRAINT "REL_834960a509c776eb841644a9ba" UNIQUE ("userId"), CONSTRAINT "PK_4bd9f54aab9e59628a3a2657fa1" PRIMARY KEY ("id"));

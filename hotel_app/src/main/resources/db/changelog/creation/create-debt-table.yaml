@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-debt-table
+      author: postgres
+      password: 123
+      changes:
+        - createTable:
+            tableName: debts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: false
+                    foreignKeyName: cdt_u_id_u_id
+                    references: users(id)
+                    deleteCascade: true
+              - column:
+                  name: total_price
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: false

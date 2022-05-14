@@ -1,48 +1,24 @@
 databaseChangeLog:
   - logicalFilePath: db/changelog/db.changelog-master.yaml
   - include:
-      file: db/changelog/import/import-uuid-ossp.sql
+      file: db/changelog/creation/create-organisation-table.yaml
   - include:
-      file: db/changelog/creation/create-service-table.sql
+      file: db/changelog/creation/create-user-table.yaml
   - include:
-      file: db/changelog/creation/create-hotel-table.sql
+      file: db/changelog/creation/create-debt-table.yaml
   - include:
-      file: db/changelog/creation/create-organisation-table.sql
+      file: db/changelog/creation/create-complaint-table.yaml
   - include:
-      file: db/changelog/creation/create-debt-table.sql
+      file: db/changelog/creation/create-hotel-table.yaml
   - include:
-      file: db/changelog/creation/create-complaint-table.sql
+      file: db/changelog/creation/create-rent-table.yaml
   - include:
-      file: db/changelog/creation/create-user-table.sql
+      file: db/changelog/creation/create-apartment-table.yaml
   - include:
-      file: db/changelog/creation/create-rent-table.sql
-  - include:
-      file: db/changelog/creation/create-apartment-table.sql
-  - include:
-      file: db/changelog/creation/create-services-hotel-table.sql
-  - include:
-      file: db/changelog/alteration/alter-debt-table.sql
-  - include:
-      file: db/changelog/alteration/alter-complaint-table.sql
-  - include:
-      file: db/changelog/alteration/alter-user-table.sql
-  - include:
-      file: db/changelog/alteration/alter-rent-table.sql
-  - include:
-      file: db/changelog/alteration/alter-apartment-table.sql
-  - include:
-      file: db/changelog/alteration/alter-services-hotel-table.sql
-  - include:
-      file: db/changelog/alteration/alter-hotel-table.sql
-  - include:
-      file: db/changelog/alteration/alter-organisation-table.sql
-  - include:
-      file: db/changelog/alteration/alter-service-table.sql
+      file: db/changelog/creation/create-service-table.yaml
   - include:
       file: db/changelog/insertion/insert-hotel-table.sql
   - include:
       file: db/changelog/insertion/insert-apartment-table.sql
   - include:
       file: db/changelog/insertion/insert-service-table.sql
-  - include:
-      file: db/changelog/insertion/insert-services-hotel-table.sql

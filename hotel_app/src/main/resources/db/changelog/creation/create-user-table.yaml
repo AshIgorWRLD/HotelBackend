@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: postgres
+      password: 123
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cognito_id
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: organisation_id
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: true
+                    foreignKeyName: cut_o_id_o_id
+                    references: organisations(id)
+                    deleteCascade: true

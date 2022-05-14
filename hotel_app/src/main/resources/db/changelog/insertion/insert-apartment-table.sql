@@ -1,11 +1,48 @@
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('ba3b496c-3a18-4232-a61c-946b5b93660a', 'Standart with city view / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 5, 1, 70, 2, 'c9081a56-431f-45a7-b289-e5142e0b606b');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('f3f9c931-0ede-41dd-93fe-505edadf00cb', 'Lux', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 8, 3, 160, 4, 'c9081a56-431f-45a7-b289-e5142e0b606b');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('cbfd45c2-7f7f-4c93-8fac-f719bcd9e66a', 'President', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 10, 3, 215, 2, 'c9081a56-431f-45a7-b289-e5142e0b606b');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('fef815bf-8099-4e33-b0a0-01ff1eaad694', 'Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 40, 10, '2bc66b73-9654-4afe-8854-ab4a7e97fb8c');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('e9fde62e-b0f0-4a77-81f1-d5736698e1ec', 'Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 35, 8, '8006446c-ed8c-445f-b817-df78c6df4d75');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('ce84d0e0-ab23-4ee5-82ee-0cc854d013b0', 'Standart / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 2, 1, 50, 6, '765c6794-ad96-45b5-ac0d-d9d068672e7f');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('10c458e9-01ef-4070-86fa-21f176c34df0', 'Standart / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 5, 1, 50, 3, '8006446c-ed8c-445f-b817-df78c6df4d75');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('137f90cc-b7d0-4bd1-a0ee-ca4054866f12', 'Deluxe with sofa new', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 9, 3, 120, 1, '8006446c-ed8c-445f-b817-df78c6df4d75');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('8ef1f631-f01b-4c2e-a695-8bdc40905077', 'Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 4, 1, 55, 4, '8006446c-ed8c-445f-b817-df78c6df4d75');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('a84ba5bd-d074-433c-a8c0-d2d65c9b8086', '1', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 10, 2, '8006446c-ed8c-445f-b817-df78c6df4d75');
-INSERT INTO public.apartments (id, name, description, floor, "roomsTotal", "pricePerDay", "availableCount", "hotelId") VALUES ('9462109c-0c6a-4762-a57d-2baed0fcd928', 'Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 3, 1, 54, 6, '8006446c-ed8c-445f-b817-df78c6df4d75');
+INSERT INTO apartments (name, description, floor, rooms_total, price_per_day, available_count, hotel_id)
+VALUES  ('Standart with city view / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 5, 1, 70, 2,
+        (SELECT hotels.id
+        FROM hotels
+            WHERE(hotels.name = 'Horizon Patio'))),
+        ('Lux', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 8, 3, 160, 4,
+        (SELECT hotels.id
+        FROM hotels
+            WHERE(hotels.name = 'Horizon Patio'))),
+        ('President', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 10, 3, 215, 2,
+        (SELECT hotels.id
+        FROM hotels
+            WHERE(hotels.name = 'Horizon Patio'))),
+        ('Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 40, 10,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Crowne Plaza'))),
+        ('Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 35, 8,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge'))),
+        ('Standart / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 2, 1, 50, 6,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'The Home'))),
+        ('Standart / 1 big bed', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 5, 1, 50, 3,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge'))),
+        ('Deluxe with sofa new', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 9, 3, 120, 1,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge'))),
+        ('Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 4, 1, 55, 4,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge'))),
+        ('1', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 1, 1, 10, 2,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge'))),
+        ('Standart / 2 beds', 'Impedit, mollitia neque, nesciunt nisi non numquam odit quia quo sequi similique soluta voluptates', 3, 1, 54, 6,
+        (SELECT hotels.id
+        FROM hotels
+           WHERE(hotels.name = 'Sunset Lodge')));
+
+
+
