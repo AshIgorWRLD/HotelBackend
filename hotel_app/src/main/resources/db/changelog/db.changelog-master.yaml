@@ -3,7 +3,11 @@ databaseChangeLog:
   - include:
       file: db/changelog/creation/create-organisation-table.yaml
   - include:
+      file: db/changelog/creation/create-role-table.yaml
+  - include:
       file: db/changelog/creation/create-user-table.yaml
+  - include:
+      file: db/changelog/creation/create-jwt-table.yaml
   - include:
       file: db/changelog/creation/create-debt-table.yaml
   - include:

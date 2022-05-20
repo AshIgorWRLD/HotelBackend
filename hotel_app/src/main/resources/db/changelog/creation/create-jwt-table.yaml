@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-jwt-table
+      author: postgres
+      password: 123
+      changes:
+        - createTable:
+            tableName: jwt
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: false
+                    foreignKeyName: cjt_u_id_u_id
+                    references: users(id)
+                    deleteCascade: true
+              - column:
+                  name: jwt_token
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false

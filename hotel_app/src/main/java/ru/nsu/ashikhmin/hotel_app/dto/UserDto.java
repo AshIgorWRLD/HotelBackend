@@ -13,8 +13,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class UserDto {
 
-    @JsonProperty("cognito_id")
-    private String cognitoId;
+    private String login;
+    private String password;
     private String email;
     @JsonProperty("first_name")
     private String firstName;
@@ -27,4 +27,11 @@ public class UserDto {
     private Timestamp updatedAt;
     @JsonProperty("organisation_id")
     private Long organisationId;
+
+    public String toString(){
+        return "\nUser{" + "login=" + this.login + ", password=" + this.password +
+                ", email=" + this.email + ", firstName=" + this.firstName + ", lastName=" +
+                this.lastName + ", createdAt=" + this.createdAt + ", updatedAt=" +
+                this.updatedAt + ", organisation_id=" + this.organisationId + ", role=" + this.role + "}";
+    }
 }

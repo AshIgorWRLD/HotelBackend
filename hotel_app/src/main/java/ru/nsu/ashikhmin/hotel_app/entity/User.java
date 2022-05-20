@@ -9,8 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -24,9 +25,14 @@ public class User {
 
     @NotBlank
     @NotNull
-    @JsonProperty("cognito_id")
-    @Column(name = "cognito_id", unique = true)
-    private String cognitoId;
+    @Size(min = 5)
+    @Column(unique = true)
+    private String login;
+
+    @NotBlank
+    @NotNull
+    @Size(min = 3)
+    private String password;
 
     @NotBlank
     @NotNull
@@ -46,9 +52,10 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank
-    @NotNull
-    private String role;
+    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH})
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
     @NotNull
     @JsonProperty("created_at")
@@ -61,14 +68,17 @@ public class User {
     private Timestamp updatedAt;
 
     @NotNull
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH})
+    @JoinColumn(name = "organisation", referencedColumnName = "id")
     private Organisation organisation;
 
     public User(){}
 
-    public User(String cognitoId, String email, String firstName, String lastName, String role,
-                Timestamp createdAt, Timestamp updatedAt, Organisation organisation) {
-        this.cognitoId = cognitoId;
+    public User(String login, String password, String email, String firstName, String lastName,
+                Role role, Timestamp createdAt, Timestamp updatedAt, Organisation organisation) {
+        this.login = login;
+        this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -78,9 +88,10 @@ public class User {
         this.organisation = organisation;
     }
 
-    public User(String cognitoId, String email, String firstName, String lastName, String role,
-                 Organisation organisation) {
-        this.cognitoId = cognitoId;
+    public User(String login, String password, String email, String firstName, String lastName,
+                Role role, Organisation organisation) {
+        this.login = login;
+        this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -88,12 +99,13 @@ public class User {
         this.organisation = organisation;
     }
 
+
     @Override
     public String toString(){
-        return "\nUser{" + "id=" + this.id + ", cognitoId=" + this.cognitoId + ", email=" +
-                this.email + ", firstName=" + this.firstName + ", lastName=" + this.lastName +
-                ", role=" + this.role + ", createdAt=" + this.createdAt +
-                ", updatedAt=" + this.updatedAt + ", organisation=" + this.organisation + "}";
+        return "\nUser{" + "id=" + this.id + ", login=" + this.login + ", password=" + this.password +
+                ", email=" + this.email + ", firstName=" + this.firstName + ", lastName=" +
+                this.lastName + ", createdAt=" + this.createdAt + ", updatedAt=" +
+                this.updatedAt + ", organisation=" + this.organisation + ", role=" + this.role + "}";
     }
 
     @Override
