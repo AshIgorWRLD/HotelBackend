@@ -19,6 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Validated
+@CrossOrigin
 @RestController
 @RequestMapping("organisations")
 @Api(description = "Контроллер организаций")

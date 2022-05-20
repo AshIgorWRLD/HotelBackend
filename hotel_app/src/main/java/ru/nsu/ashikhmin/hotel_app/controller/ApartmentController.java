@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin
 @Validated
 @RestController
 @RequestMapping("hotels/apartments")

@@ -19,6 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Validated
+@CrossOrigin
 @RestController
 @RequestMapping("users/roles")
 @Api(description = "Контроллер ролей")

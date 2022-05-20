@@ -22,6 +22,7 @@ import java.util.List;
 
 @Slf4j
 @Validated
+@CrossOrigin
 @RestController
 @RequestMapping("hotels/service")
 @Api(description = "Контроллер сервисов")
