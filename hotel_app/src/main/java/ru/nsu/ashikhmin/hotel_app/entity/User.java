@@ -70,7 +70,7 @@ public class User {
     @NotNull
     @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "organisation", referencedColumnName = "id")
+    @JoinColumn(name = "organisation_id", referencedColumnName = "id")
     private Organisation organisation;
 
     public User(){}
