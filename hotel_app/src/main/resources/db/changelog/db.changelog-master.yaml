@@ -21,8 +21,14 @@ databaseChangeLog:
   - include:
       file: db/changelog/creation/create-service-table.yaml
   - include:
+      file: db/changelog/creation/create-services-hotels-table.yaml
+  - include:
+      file: db/changelog/insertion/insert-role-table.sql
+  - include:
       file: db/changelog/insertion/insert-hotel-table.sql
   - include:
       file: db/changelog/insertion/insert-apartment-table.sql
   - include:
       file: db/changelog/insertion/insert-service-table.sql
+  - include:
+      file: db/changelog/insertion/insert-services-hotels-table.sql

@@ -1,6 +1,7 @@
 package ru.nsu.ashikhmin.hotel_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,12 +35,13 @@ public class Apartment {
     @Column(name = "price_per_day")
     private Integer pricePerDay;
 
+    @JsonBackReference
     @NotNull
     //@JsonProperty("hotel_id")
     @Column(name = "hotel_id", insertable = false, updatable = false)
     private Long hotelId;
 
-    @JsonBackReference
+    @JsonManagedReference
     @NotNull
     @ManyToOne()
     private Hotel hotel;

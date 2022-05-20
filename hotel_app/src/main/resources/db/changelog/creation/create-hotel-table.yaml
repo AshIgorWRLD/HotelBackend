@@ -38,3 +38,9 @@ databaseChangeLog:
                   constraints:
                     unique: false
                     nullable: false
+              - column:
+                  name: apartments_amount
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: true

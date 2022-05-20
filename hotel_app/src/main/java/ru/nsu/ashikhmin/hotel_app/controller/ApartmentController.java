@@ -66,11 +66,11 @@ public class ApartmentController {
         log.info("request for creating apartment from data source {}", apartmentDto);
         ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
                 apartmentDto.getHotelId());
-        Hotel body = hotelResponseEntity.getBody();
+        Hotel hotel = hotelResponseEntity.getBody();
         Apartment apartment = new Apartment(apartmentDto.getFloor(), apartmentDto.getRoomsTotal(),
-                apartmentDto.getPricePerDay(), body,apartmentDto.getName(),
+                apartmentDto.getPricePerDay(), hotel, apartmentDto.getName(),
                 apartmentDto.getDescription(), apartmentDto.getAvailableCount());
-        
+
         log.info("request for creating apartment with parameters {}", apartment);
 
         return new ResponseEntity<>(apartmentRepo.save(apartment), HttpStatus.OK);
