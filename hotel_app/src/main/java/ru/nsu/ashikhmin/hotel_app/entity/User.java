@@ -66,7 +66,6 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @NotNull
     @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinColumn(name = "organisation_id", referencedColumnName = "id")
