@@ -16,16 +16,16 @@ public class UserDto {
     private String login;
     private String password;
     private String email;
-    @JsonProperty("first_name")
+    //@JsonProperty("first_name")
     private String firstName;
-    @JsonProperty("last_name")
+    //@JsonProperty("last_name")
     private String lastName;
     private String role;
-    @JsonProperty("created_at")
+    //@JsonProperty("created_at")
     private Timestamp createdAt;
-    @JsonProperty("updated_at")
+    //@JsonProperty("updated_at")
     private Timestamp updatedAt;
-    @JsonProperty("organisation_id")
+    //@JsonProperty("organisation_id")
     private Long organisationId;
 
     public String toString(){

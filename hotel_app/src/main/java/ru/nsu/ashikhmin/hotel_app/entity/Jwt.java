@@ -27,7 +27,7 @@ public class Jwt {
 
     @NotNull
     @NotBlank
-    @JsonProperty("jwt_token")
+   // @JsonProperty("jwt_token")
     @Column(name = "jwt_token")
     private String jwtToken;
 

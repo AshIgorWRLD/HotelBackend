@@ -1,7 +1,6 @@
 package ru.nsu.ashikhmin.hotel_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -26,7 +25,7 @@ public class Hotel {
     private Integer stars;
 
     @NotNull
-    @JsonProperty("floorsTotal")
+    //@JsonProperty("floorsTotal")
     @Column(name = "floorsTotal")
     private Integer floorsTotal;
 

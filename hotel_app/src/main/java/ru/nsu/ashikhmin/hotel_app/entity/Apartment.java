@@ -25,17 +25,17 @@ public class Apartment {
     private Integer floor;
 
     @NotNull
-    @JsonProperty("rooms_total")
+    //@JsonProperty("rooms_total")
     @Column(name = "rooms_total")
     private Integer roomsTotal;
 
     @NotNull
-    @JsonProperty("price_per_day")
+    //@JsonProperty("price_per_day")
     @Column(name = "price_per_day")
     private Integer pricePerDay;
 
     @NotNull
-    @JsonProperty("hotel_id")
+    //@JsonProperty("hotel_id")
     @Column(name = "hotel_id", insertable = false, updatable = false)
     private Long hotelId;
 
@@ -53,7 +53,7 @@ public class Apartment {
     private String description;
 
     @NotNull
-    @JsonProperty("available_count")
+   //@JsonProperty("available_count")
     @Column(name = "available_count")
     private Integer availableCount;
 

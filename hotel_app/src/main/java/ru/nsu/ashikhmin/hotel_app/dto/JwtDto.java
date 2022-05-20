@@ -13,9 +13,9 @@ import javax.persistence.*;
 public class JwtDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("user_id")
+    //@JsonProperty("user_id")
     private Long userId;
-    @JsonProperty("jwt_token")
+    //@JsonProperty("jwt_token")
     private String jwtToken;
 
     @Override

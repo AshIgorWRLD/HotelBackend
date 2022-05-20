@@ -12,14 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ApartmentDto {
     private Integer floor;
-    @JsonProperty("rooms_total")
+    //@JsonProperty("rooms_total")
     private Integer roomsTotal;
-    @JsonProperty("price_per_day")
+    //@JsonProperty("price_per_day")
     private Integer pricePerDay;
-    @JsonProperty("hotel_id")
+    //@JsonProperty("hotel_id")
     private Long hotelId;
     private String name;
     private String description;
-    @JsonProperty("available_count")
+    //@JsonProperty("available_count")
     private Integer availableCount;
 }
