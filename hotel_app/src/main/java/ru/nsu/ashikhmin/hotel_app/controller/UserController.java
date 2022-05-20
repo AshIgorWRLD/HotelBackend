@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ashikhmin.hotel_app.dto.UserDto;
+import ru.nsu.ashikhmin.hotel_app.dto.UserVerificationDto;
 import ru.nsu.ashikhmin.hotel_app.entity.Jwt;
 import ru.nsu.ashikhmin.hotel_app.entity.Organisation;
 import ru.nsu.ashikhmin.hotel_app.entity.Role;
@@ -62,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("id/{id}")
     @ApiOperation("Получение пользователя по id")
     public ResponseEntity<User> getOne(@PathVariable("id") Long id) {
         log.info("request for getting user with id: {}", id);
@@ -70,6 +71,21 @@ public class UserController {
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Not found user with id = " + id));
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("get")
+    @ApiOperation("Получение пользователя по id")
+    public ResponseEntity<User> getOne(@Valid @RequestBody UserVerificationDto userVerificationDto) {
+        log.info("request for getting user with data {}", userVerificationDto);
+
+        User user = userRepo.findByLoginAndPassword(userVerificationDto.getLogin(),
+                        userVerificationDto.getPassword());
+        if(user == null){
+            throw new ResourceNotFoundException("Not found user with login = " + userVerificationDto.getLogin() +
+                    " and password = " + userVerificationDto.getPassword());
+        }
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
