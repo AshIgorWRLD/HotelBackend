@@ -73,7 +73,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("get")
+    @PostMapping("get")
     @ApiOperation("Получение пользователя по id")
     public ResponseEntity<User> getOne(@Valid @RequestBody UserVerificationDto userVerificationDto) {
         log.info("request for getting user with data {}", userVerificationDto);
@@ -92,12 +92,16 @@ public class UserController {
     @ApiOperation("Создание нового пользователя")
     public ResponseEntity<User> create(@Valid @RequestBody UserDto userDto) {
         log.info("request for creating user from data source {}", userDto);
-        ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
-                userDto.getOrganisationId());
+        Organisation organisation = null;
+        if(userDto.getOrganisationId() != null) {
+            ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
+                    userDto.getOrganisationId());
+            organisation = organisationResponseEntity.getBody();
+        }
         ResponseEntity<Role> roleResponseEntity = roleController.getOneByName(userDto.getRole());
         User user = new User(userDto.getLogin(), userDto.getPassword(), userDto.getEmail(),
                 userDto.getFirstName(), userDto.getLastName(), roleResponseEntity.getBody(),
-                userDto.getCreatedAt(), userDto.getUpdatedAt(), organisationResponseEntity.getBody());
+                userDto.getCreatedAt(), userDto.getUpdatedAt(), organisation);
 
         log.info("request for creating user with parameters {}", user);
 
@@ -118,13 +122,16 @@ public class UserController {
     public ResponseEntity<User> update(@PathVariable("id") long id,
                                        @Valid @RequestBody UserDto userDto) {
         log.info("request for updating user from data source {}", userDto);
-        ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
-                userDto.getOrganisationId());
+        Organisation organisation = null;
+        if(userDto.getOrganisationId() != null) {
+            ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
+                    userDto.getOrganisationId());
+            organisation = organisationResponseEntity.getBody();
+        }
         ResponseEntity<Role> roleResponseEntity = roleController.getOneByName(userDto.getRole());
         User user = new User(userDto.getLogin(), userDto.getPassword(), userDto.getEmail(),
                 userDto.getFirstName(), userDto.getLastName(), roleResponseEntity.getBody(),
-                userDto.getCreatedAt(), userDto.getUpdatedAt(), organisationResponseEntity.getBody());
-
+                userDto.getCreatedAt(), userDto.getUpdatedAt(), organisation);
         log.info("request for updating user by id {} with parameters {}",
                 id, user);
 
