@@ -26,20 +26,14 @@ public class Apartment {
     private Integer floor;
 
     @NotNull
-    //@JsonProperty("rooms_total")
+    @JsonProperty("rooms_total")
     @Column(name = "rooms_total")
     private Integer roomsTotal;
 
     @NotNull
-    //@JsonProperty("price_per_day")
+    @JsonProperty("price_per_day")
     @Column(name = "price_per_day")
     private Integer pricePerDay;
-
-    @JsonBackReference
-    @NotNull
-    //@JsonProperty("hotel_id")
-    @Column(name = "hotel_id", insertable = false, updatable = false)
-    private Long hotelId;
 
     @JsonManagedReference
     @NotNull
@@ -55,11 +49,12 @@ public class Apartment {
     private String description;
 
     @NotNull
-   //@JsonProperty("available_count")
+    //@JsonProperty("available_count")
     @Column(name = "available_count")
     private Integer availableCount;
 
-    public Apartment(){}
+    public Apartment() {
+    }
 
     public Apartment(Integer floor, Integer roomsTotal, Integer pricePerDay, Hotel hotel,
                      String name, String description, Integer availableCount) {
@@ -67,14 +62,13 @@ public class Apartment {
         this.roomsTotal = roomsTotal;
         this.pricePerDay = pricePerDay;
         this.hotel = hotel;
-        this.hotelId = hotel.getId();
         this.name = name;
         this.description = description;
         this.availableCount = availableCount;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nApartment{" + "id=" + this.id + ", floor=" + this.floor + ", rooms_total=" +
                 this.roomsTotal + ", price_per_day=" + this.pricePerDay + ", hotel=" +
                 this.hotel + ", name=" + this.name + ", description=" + this.description +
@@ -83,10 +77,10 @@ public class Apartment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Apartment apartment = (Apartment) o;

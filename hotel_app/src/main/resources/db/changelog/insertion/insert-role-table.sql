@@ -1,3 +1,4 @@
 INSERT INTO roles (name)
 VALUES ('admin'),
-       ('client');
+       ('client'),
+       ('system_admin');

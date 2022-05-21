@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -41,37 +41,34 @@ public class User {
 
     @NotBlank
     @NotNull
-    //@JsonProperty("first_name")
     @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
     @NotNull
-    //@JsonProperty("last_name")
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
     @NotNull
-   // @JsonProperty("created_at")
     @Column(name = "created_at")
     private Timestamp createdAt;
 
     @NotNull
-   // @JsonProperty("updated_at")
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinColumn(name = "organisation_id", referencedColumnName = "id")
     private Organisation organisation;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String login, String password, String email, String firstName, String lastName,
                 Role role, Timestamp createdAt, Timestamp updatedAt, Organisation organisation) {
@@ -99,7 +96,7 @@ public class User {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nUser{" + "id=" + this.id + ", login=" + this.login + ", password=" + this.password +
                 ", email=" + this.email + ", firstName=" + this.firstName + ", lastName=" +
                 this.lastName + ", createdAt=" + this.createdAt + ", updatedAt=" +
@@ -108,10 +105,10 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         User user = (User) o;

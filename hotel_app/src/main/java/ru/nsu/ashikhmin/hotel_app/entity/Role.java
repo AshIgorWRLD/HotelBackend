@@ -18,23 +18,24 @@ public class Role {
     @Column(unique = true)
     private String name;
 
-    public Role(){}
+    public Role() {
+    }
 
     public Role(String name) {
         this.name = name;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nRole{" + "id=" + this.id + ", name=" + this.name + "}";
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Role role = (Role) o;
@@ -45,6 +46,4 @@ public class Role {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-
 }

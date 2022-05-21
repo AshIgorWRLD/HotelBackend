@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -28,7 +27,6 @@ public class Hotel {
     private Integer stars;
 
     @NotNull
-    //@JsonProperty("floorsTotal")
     @Column(name = "floorsTotal")
     private Integer floorsTotal;
 
@@ -49,7 +47,8 @@ public class Hotel {
     @ManyToMany(mappedBy = "hotels")
     private List<Service> services = new ArrayList<>();
 
-    public Hotel(){}
+    public Hotel() {
+    }
 
     public Hotel(String name, Integer stars, Integer floorsTotal, String description) {
         this.name = name;
@@ -59,7 +58,7 @@ public class Hotel {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nHotel{" + "id=" + this.id + ", name=" + this.name + ", stars=" +
                 this.stars + ", floorsTotal=" + this.floorsTotal + ", description=" +
                 this.description + "}";
@@ -67,10 +66,10 @@ public class Hotel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Hotel hotel = (Hotel) o;

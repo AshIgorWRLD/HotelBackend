@@ -28,16 +28,16 @@ public class OrganisationController {
     private final OrganisationRepo organisationRepo;
 
     @Autowired
-    public OrganisationController(OrganisationRepo organisationRepo){
+    public OrganisationController(OrganisationRepo organisationRepo) {
         this.organisationRepo = organisationRepo;
     }
 
     @GetMapping
     @ApiOperation("Получение списка организаций")
-    public ResponseEntity<List<Organisation>> list(){
+    public ResponseEntity<List<Organisation>> list() {
         log.info("request for getting all organisations");
         List<Organisation> organisations = organisationRepo.findAll();
-        if(organisations.isEmpty()){
+        if (organisations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -62,7 +62,7 @@ public class OrganisationController {
         log.info("request for getting organisation with name: {}", name);
 
         Organisation organisation = organisationRepo.findByName(name);
-        if(organisation == null){
+        if (organisation == null) {
             throw new ResourceNotFoundException("Not found organisation with name = " + name);
         }
 
@@ -71,7 +71,7 @@ public class OrganisationController {
 
     @PostMapping(consumes = {"*/*"})
     @ApiOperation("Создание новой организации")
-    public ResponseEntity<Organisation> create(@Valid @RequestBody Organisation organisation){
+    public ResponseEntity<Organisation> create(@Valid @RequestBody Organisation organisation) {
         log.info("request for creating person with parameters {}", organisation);
 
         return new ResponseEntity<>(organisationRepo.save(organisation), HttpStatus.OK);
@@ -80,7 +80,7 @@ public class OrganisationController {
     @PutMapping("{id}")
     @ApiOperation("Обновление информации о существующей организации")
     public ResponseEntity<Organisation> update(@PathVariable("id") long id,
-                                       @Valid @RequestBody Organisation organisation){
+                                               @Valid @RequestBody Organisation organisation) {
         log.info("request for updating user by id {} with parameters {}",
                 id, organisation);
 
@@ -106,7 +106,7 @@ public class OrganisationController {
 
     @DeleteMapping
     @ApiOperation("Удаление всех организаций")
-    public ResponseEntity<HttpStatus> deleteAll(){
+    public ResponseEntity<HttpStatus> deleteAll() {
         log.info("request for deleting all users");
         organisationRepo.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

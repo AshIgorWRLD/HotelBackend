@@ -1,6 +1,5 @@
 package ru.nsu.ashikhmin.hotel_app.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -20,18 +19,18 @@ public class Jwt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @NotNull
     @NotBlank
-   // @JsonProperty("jwt_token")
     @Column(name = "jwt_token")
     private String jwtToken;
 
-    public Jwt(){}
+    public Jwt() {
+    }
 
     public Jwt(User user, String jwtToken) {
         this.user = user;
@@ -39,17 +38,17 @@ public class Jwt {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nJwt{" + "id=" + this.id + ", user=" + this.user + ", jwt_token=" +
                 this.jwtToken + "}";
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Jwt jwt = (Jwt) o;

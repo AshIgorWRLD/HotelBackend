@@ -16,7 +16,7 @@ public class ServiceDto {
     private Long hotelId;
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nService{" + "name=" + this.name + ", is_additional=" +
                 this.isAdditional + ", total_price=" + this.totalPrice + ", description=" +
                 this.description + ", hotel_id=" + this.hotelId + "}";

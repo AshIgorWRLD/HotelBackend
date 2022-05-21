@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ashikhmin.hotel_app.dto.ServiceDto;
-import ru.nsu.ashikhmin.hotel_app.entity.Service;
 import ru.nsu.ashikhmin.hotel_app.entity.Hotel;
+import ru.nsu.ashikhmin.hotel_app.entity.Service;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
 import ru.nsu.ashikhmin.hotel_app.repository.ServiceRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
@@ -33,17 +33,17 @@ public class ServiceController {
     private final HotelController hotelController;
 
     @Autowired
-    public ServiceController(ServiceRepo serviceRepo, HotelController hotelController){
+    public ServiceController(ServiceRepo serviceRepo, HotelController hotelController) {
         this.serviceRepo = serviceRepo;
         this.hotelController = hotelController;
     }
 
     @GetMapping
-    @ApiOperation("Получение списка апартаментов")
-    public ResponseEntity<List<Service>> list(){
+    @ApiOperation("Получение списка сервисов")
+    public ResponseEntity<List<Service>> list() {
         log.info("request for getting all services");
         List<Service> services = serviceRepo.findAll();
-        if(services.isEmpty()){
+        if (services.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -51,7 +51,7 @@ public class ServiceController {
     }
 
     @GetMapping("/id/{id}")
-    @ApiOperation("Получение апартаментов по id")
+    @ApiOperation("Получение сервиса по id")
     public ResponseEntity<Service> getOneById(@PathVariable("id") Long id) {
         log.info("request for getting service with id: {}", id);
 
@@ -63,8 +63,8 @@ public class ServiceController {
     }
 
     @PostMapping(consumes = {"*/*"})
-    @ApiOperation("Создание новых апартаментов")
-    public ResponseEntity<Service> create(@Valid @RequestBody ServiceDto serviceDto){
+    @ApiOperation("Создание нового сервиса")
+    public ResponseEntity<Service> create(@Valid @RequestBody ServiceDto serviceDto) {
         log.info("request for creating service from data source {}", serviceDto);
         ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
                 serviceDto.getHotelId());
@@ -80,9 +80,9 @@ public class ServiceController {
     }
 
     @PutMapping("{id}")
-    @ApiOperation("Обновление информации о существующих апартаментах")
+    @ApiOperation("Обновление информации о существующем сервисе")
     public ResponseEntity<Service> update(@PathVariable("id") long id,
-                                            @Valid @RequestBody ServiceDto serviceDto){
+                                          @Valid @RequestBody ServiceDto serviceDto) {
         log.info("request for updating service from data source {}", serviceDto);
         ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
                 serviceDto.getHotelId());
@@ -104,7 +104,7 @@ public class ServiceController {
     }
 
     @DeleteMapping("{id}")
-    @ApiOperation("Удаление апартаментов по id")
+    @ApiOperation("Удаление сервиса по id")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Service service) {
 
         log.info("request for deleting service with parameters {}", service);
@@ -114,8 +114,8 @@ public class ServiceController {
     }
 
     @DeleteMapping
-    @ApiOperation("Удаление всех апартаментов")
-    public ResponseEntity<HttpStatus> deleteAll(){
+    @ApiOperation("Удаление всех сервисов")
+    public ResponseEntity<HttpStatus> deleteAll() {
         log.info("request for deleting all services");
         serviceRepo.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

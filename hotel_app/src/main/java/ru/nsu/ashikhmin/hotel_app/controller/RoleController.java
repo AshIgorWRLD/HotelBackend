@@ -28,16 +28,16 @@ public class RoleController {
     private final RoleRepo roleRepo;
 
     @Autowired
-    public RoleController(RoleRepo roleRepo){
+    public RoleController(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
     }
 
     @GetMapping
     @ApiOperation("Получение списка ролей")
-    public ResponseEntity<List<Role>> list(){
+    public ResponseEntity<List<Role>> list() {
         log.info("request for getting all roles");
         List<Role> roles = roleRepo.findAll();
-        if(roles.isEmpty()){
+        if (roles.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -62,7 +62,7 @@ public class RoleController {
         log.info("request for getting role with name: {}", name);
 
         Role role = roleRepo.findByName(name);
-        if(role == null){
+        if (role == null) {
             throw new ResourceNotFoundException(
                     "Not found role with name = " + name);
         }
@@ -73,7 +73,7 @@ public class RoleController {
 
     @PostMapping(consumes = {"*/*"})
     @ApiOperation("Создание новой роли")
-    public ResponseEntity<Role> create(@Valid @RequestBody Role role){
+    public ResponseEntity<Role> create(@Valid @RequestBody Role role) {
         log.info("request for creating role with parameters {}", role);
 
         return new ResponseEntity<>(roleRepo.save(role), HttpStatus.OK);
@@ -82,7 +82,7 @@ public class RoleController {
     @PutMapping("{id}")
     @ApiOperation("Обновление информации о существующей роли")
     public ResponseEntity<Role> update(@PathVariable("id") long id,
-                                       @Valid @RequestBody Role role){
+                                       @Valid @RequestBody Role role) {
         log.info("request for updating role by id {} with parameters {}",
                 id, role);
         Role roleFromDataBase = roleRepo.findById(id)
@@ -106,7 +106,7 @@ public class RoleController {
 
     @DeleteMapping
     @ApiOperation("Удаление всех ролей")
-    public ResponseEntity<HttpStatus> deleteAll(){
+    public ResponseEntity<HttpStatus> deleteAll() {
         log.info("request for deleting all roles");
         roleRepo.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

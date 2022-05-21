@@ -1,10 +1,8 @@
 package ru.nsu.ashikhmin.hotel_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -14,7 +12,6 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "services")
@@ -45,15 +42,16 @@ public class Service {
 
     @NotNull
     @JsonBackReference
-    @ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH},
-                fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY)
     @JoinTable(name = "services_hotels",
             joinColumns = {@JoinColumn(name = "service_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "hotel_id", referencedColumnName = "id")})
     private List<Hotel> hotels = new ArrayList<>();
 
-    public Service(){}
+    public Service() {
+    }
 
     public Service(String name, boolean isAdditional, Integer totalPrice, String description,
                    List<Hotel> hotels) {
@@ -65,7 +63,7 @@ public class Service {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nService{" + "id=" + this.id + ", name=" + this.name + ", is_additional=" +
                 this.isAdditional + ", total_price=" + this.totalPrice + ", description=" +
                 this.description + "}";
@@ -73,10 +71,10 @@ public class Service {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Service service = (Service) o;

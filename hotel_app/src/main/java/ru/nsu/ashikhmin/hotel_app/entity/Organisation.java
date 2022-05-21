@@ -26,7 +26,8 @@ public class Organisation {
     @NotBlank
     private String name;
 
-    public Organisation(){}
+    public Organisation() {
+    }
 
     public Organisation(Integer priority, String name) {
         this.priority = priority;
@@ -34,17 +35,17 @@ public class Organisation {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "\nOrganisation{" + "id=" + this.id + ", priority=" + this.priority + ", name=" +
                 this.name + "}";
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)){
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Organisation organisation = (Organisation) o;

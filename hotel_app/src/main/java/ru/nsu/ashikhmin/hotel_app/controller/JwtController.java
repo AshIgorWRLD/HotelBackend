@@ -30,6 +30,7 @@ public class JwtController {
     private final JwtRepo jwtRepo;
 
     private final UserController userController;
+
     @Autowired
     public JwtController(JwtRepo jwtRepo, UserController userController) {
         this.jwtRepo = jwtRepo;
@@ -66,7 +67,7 @@ public class JwtController {
         log.info("request for getting jwt with user_id: {}", id);
 
         Jwt jwt = jwtRepo.findByUserId(id);
-        if(jwt == null){
+        if (jwt == null) {
             throw new ResourceNotFoundException("Not found jwt with user_id = " + id);
         }
 
@@ -90,7 +91,7 @@ public class JwtController {
     @PutMapping("{id}")
     @ApiOperation("Обновление информации о существующем jwt ключе")
     public ResponseEntity<Jwt> update(@PathVariable("id") long id,
-                                       @Valid @RequestBody JwtDto jwtDto) {
+                                      @Valid @RequestBody JwtDto jwtDto) {
         log.info("request for updating jwt from data source {}", jwtDto);
         ResponseEntity<User> userResponseEntity = userController.getOne(
                 jwtDto.getUserId());

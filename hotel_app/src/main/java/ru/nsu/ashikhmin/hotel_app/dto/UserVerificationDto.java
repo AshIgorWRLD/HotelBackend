@@ -12,7 +12,7 @@ public class UserVerificationDto {
     private String password;
 
     @Override
-    public String toString(){
+    public String toString() {
         return "UserVerificationDto{" + "login=" + this.login + ", password=" + this.password;
     }
 }

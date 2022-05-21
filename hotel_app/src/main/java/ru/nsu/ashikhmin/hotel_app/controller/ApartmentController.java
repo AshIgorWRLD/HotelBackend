@@ -5,24 +5,30 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ashikhmin.hotel_app.dto.ApartmentDto;
+import ru.nsu.ashikhmin.hotel_app.dto.CustomApartmentDto;
 import ru.nsu.ashikhmin.hotel_app.entity.Apartment;
 import ru.nsu.ashikhmin.hotel_app.entity.Hotel;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
 import ru.nsu.ashikhmin.hotel_app.repository.ApartmentRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
+import ru.nsu.ashikhmin.hotel_app.utils.SQLAdds;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
-@CrossOrigin
 @Validated
+@CrossOrigin
 @RestController
+@EntityScan("ru.nsu.ashikhmin.hotel_app.entity")
 @RequestMapping("hotels/apartments")
 @Api(description = "Контроллер апартаментов")
 public class ApartmentController {
@@ -30,19 +36,21 @@ public class ApartmentController {
     private final ApartmentRepo apartmentRepo;
 
     private final HotelController hotelController;
-
+    private final EntityManager entityManager;
     @Autowired
-    public ApartmentController(ApartmentRepo apartmentRepo, HotelController hotelController){
+    public ApartmentController(ApartmentRepo apartmentRepo, HotelController hotelController,
+                               EntityManager entityManager) {
         this.apartmentRepo = apartmentRepo;
         this.hotelController = hotelController;
+        this.entityManager = entityManager;
     }
 
     @GetMapping
     @ApiOperation("Получение списка апартаментов")
-    public ResponseEntity<List<Apartment>> list(){
+    public ResponseEntity<List<Apartment>> list() {
         log.info("request for getting all apartments");
         List<Apartment> apartments = apartmentRepo.findAll();
-        if(apartments.isEmpty()){
+        if (apartments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -61,9 +69,49 @@ public class ApartmentController {
         return new ResponseEntity<>(apartment, HttpStatus.OK);
     }
 
+    @PostMapping("/custom")
+    @ApiOperation("Получение апартаментов по id")
+    public ResponseEntity<List<Apartment>> getBy(
+            @Valid @RequestBody CustomApartmentDto customApartmentDto) {
+        log.info("request for filtering apartment with values: {}", customApartmentDto);
+
+        StringBuilder sqlRequest = new StringBuilder();
+
+        sqlRequest.append(SQLAdds.SELECT)
+                .append(" id, name, description ")
+                .append(SQLAdds.FROM)
+                .append(" ")
+                .append(SQLAdds.APARTMENT_TABLE)
+                .append(" ");
+
+        if(customApartmentDto.isNotEmpty()){
+            Boolean[] isNotFirst = new Boolean[1];
+            isNotFirst[0] = false;
+            sqlRequest.append(SQLAdds.WHERE)
+                    .append("(");
+            customApartmentDto.addBarParameter(sqlRequest, isNotFirst, customApartmentDto.isFloor(),
+                    customApartmentDto.isFloorAnd(), customApartmentDto.getLowestFloor(),
+                    customApartmentDto.getHighestFloor(), ".floor");
+            customApartmentDto.addBarParameter(sqlRequest, isNotFirst, customApartmentDto.isRoomsTotal(),
+                    customApartmentDto.isRoomsTotalAnd(), customApartmentDto.getLowestRoomsTotal(),
+                    customApartmentDto.getHighestRoomsTotal(), ".rooms_total");
+            customApartmentDto.addBarParameter(sqlRequest, isNotFirst, customApartmentDto.isPrice(),
+                    customApartmentDto.isPriceAnd(), customApartmentDto.getLowestPrice(),
+                    customApartmentDto.getHighestPrice(), ".price_per_day");
+            customApartmentDto.addBarParameter(sqlRequest, isNotFirst, customApartmentDto.isAvailableCount(),
+                    customApartmentDto.isAvailableCountAnd(), customApartmentDto.getLowestAvailableCount(),
+                    customApartmentDto.getHighestAvailableCount(), ".availableCount");
+            customApartmentDto.addHotels(sqlRequest, isNotFirst);
+            customApartmentDto.addSearchQuery(sqlRequest, isNotFirst);
+            sqlRequest.append(");");
+        }
+        Object apartments = entityManager.createNativeQuery(sqlRequest.toString(), Apartment.class).getResultStream().collect(Collectors.toList());
+        return new ResponseEntity<>((List<Apartment>) apartments, HttpStatus.OK);
+    }
+
     @PostMapping(consumes = {"*/*"})
     @ApiOperation("Создание новых апартаментов")
-    public ResponseEntity<Apartment> create(@Valid @RequestBody ApartmentDto apartmentDto){
+    public ResponseEntity<Apartment> create(@Valid @RequestBody ApartmentDto apartmentDto) {
         log.info("request for creating apartment from data source {}", apartmentDto);
         ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
                 apartmentDto.getHotelId());
@@ -80,13 +128,13 @@ public class ApartmentController {
     @PutMapping("{id}")
     @ApiOperation("Обновление информации о существующих апартаментах")
     public ResponseEntity<Apartment> update(@PathVariable("id") long id,
-                                       @Valid @RequestBody ApartmentDto apartmentDto){
+                                            @Valid @RequestBody ApartmentDto apartmentDto) {
         log.info("request for updating apartment from data source {}", apartmentDto);
         ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
                 apartmentDto.getHotelId());
         Hotel body = hotelResponseEntity.getBody();
         Apartment apartment = new Apartment(apartmentDto.getFloor(), apartmentDto.getRoomsTotal(),
-                apartmentDto.getPricePerDay(), body,apartmentDto.getName(),
+                apartmentDto.getPricePerDay(), body, apartmentDto.getName(),
                 apartmentDto.getDescription(), apartmentDto.getAvailableCount());
 
         log.info("request for updating apartment by id {} with parameters {}",
@@ -114,7 +162,7 @@ public class ApartmentController {
 
     @DeleteMapping
     @ApiOperation("Удаление всех апартаментов")
-    public ResponseEntity<HttpStatus> deleteAll(){
+    public ResponseEntity<HttpStatus> deleteAll() {
         log.info("request for deleting all apartments");
         apartmentRepo.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

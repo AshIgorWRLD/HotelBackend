@@ -40,6 +40,7 @@ public class UserController {
 
     private final OrganisationController organisationController;
     private final RoleController roleController;
+
     @Autowired
     public UserController(UserRepo userRepo, JwtRepo jwtRepo, OrganisationController organisationController,
                           RoleController roleController) {
@@ -74,13 +75,13 @@ public class UserController {
     }
 
     @PostMapping("get")
-    @ApiOperation("Получение пользователя по id")
+    @ApiOperation("Получение пользователя по логину и паролю")
     public ResponseEntity<User> getOne(@Valid @RequestBody UserVerificationDto userVerificationDto) {
         log.info("request for getting user with data {}", userVerificationDto);
 
         User user = userRepo.findByLoginAndPassword(userVerificationDto.getLogin(),
-                        userVerificationDto.getPassword());
-        if(user == null){
+                userVerificationDto.getPassword());
+        if (user == null) {
             throw new ResourceNotFoundException("Not found user with login = " + userVerificationDto.getLogin() +
                     " and password = " + userVerificationDto.getPassword());
         }
@@ -93,7 +94,7 @@ public class UserController {
     public ResponseEntity<User> create(@Valid @RequestBody UserDto userDto) {
         log.info("request for creating user from data source {}", userDto);
         Organisation organisation = null;
-        if(userDto.getOrganisationId() != null) {
+        if (userDto.getOrganisationId() != null) {
             ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
                     userDto.getOrganisationId());
             organisation = organisationResponseEntity.getBody();
@@ -123,7 +124,7 @@ public class UserController {
                                        @Valid @RequestBody UserDto userDto) {
         log.info("request for updating user from data source {}", userDto);
         Organisation organisation = null;
-        if(userDto.getOrganisationId() != null) {
+        if (userDto.getOrganisationId() != null) {
             ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
                     userDto.getOrganisationId());
             organisation = organisationResponseEntity.getBody();
