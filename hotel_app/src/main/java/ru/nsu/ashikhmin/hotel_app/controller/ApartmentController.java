@@ -78,7 +78,7 @@ public class ApartmentController {
         StringBuilder sqlRequest = new StringBuilder();
 
         sqlRequest.append(SQLAdds.SELECT)
-                .append(" id, name, description ")
+                .append(" * ")
                 .append(SQLAdds.FROM)
                 .append(" ")
                 .append(SQLAdds.APARTMENT_TABLE)
@@ -100,13 +100,14 @@ public class ApartmentController {
                     customApartmentDto.getHighestPrice(), ".price_per_day");
             customApartmentDto.addBarParameter(sqlRequest, isNotFirst, customApartmentDto.isAvailableCount(),
                     customApartmentDto.isAvailableCountAnd(), customApartmentDto.getLowestAvailableCount(),
-                    customApartmentDto.getHighestAvailableCount(), ".availableCount");
+                    customApartmentDto.getHighestAvailableCount(), ".available_count");
             customApartmentDto.addHotels(sqlRequest, isNotFirst);
             customApartmentDto.addSearchQuery(sqlRequest, isNotFirst);
             sqlRequest.append(");");
         }
-        Object apartments = entityManager.createNativeQuery(sqlRequest.toString(), Apartment.class).getResultStream().collect(Collectors.toList());
-        return new ResponseEntity<>((List<Apartment>) apartments, HttpStatus.OK);
+
+        List<Apartment> apartments = entityManager.createNativeQuery(sqlRequest.toString(), Apartment.class).getResultList();
+        return new ResponseEntity<>(apartments, HttpStatus.OK);
     }
 
     @PostMapping(consumes = {"*/*"})

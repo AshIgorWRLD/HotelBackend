@@ -49,7 +49,7 @@ public class Apartment {
     private String description;
 
     @NotNull
-    //@JsonProperty("available_count")
+    @JsonProperty("available_count")
     @Column(name = "available_count")
     private Integer availableCount;
 
