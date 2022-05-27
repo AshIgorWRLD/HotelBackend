@@ -1,7 +1,5 @@
 package ru.nsu.ashikhmin.hotel_app.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,18 +11,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ashikhmin.hotel_app.dto.UserDto;
 import ru.nsu.ashikhmin.hotel_app.dto.UserVerificationDto;
-import ru.nsu.ashikhmin.hotel_app.entity.Jwt;
 import ru.nsu.ashikhmin.hotel_app.entity.Organisation;
 import ru.nsu.ashikhmin.hotel_app.entity.Role;
 import ru.nsu.ashikhmin.hotel_app.entity.User;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
-import ru.nsu.ashikhmin.hotel_app.repository.JwtRepo;
 import ru.nsu.ashikhmin.hotel_app.repository.UserRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 
 import javax.validation.Valid;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -36,16 +30,14 @@ import java.util.List;
 public class UserController {
 
     private final UserRepo userRepo;
-    private final JwtRepo jwtRepo;
 
     private final OrganisationController organisationController;
     private final RoleController roleController;
 
     @Autowired
-    public UserController(UserRepo userRepo, JwtRepo jwtRepo, OrganisationController organisationController,
+    public UserController(UserRepo userRepo, OrganisationController organisationController,
                           RoleController roleController) {
         this.userRepo = userRepo;
-        this.jwtRepo = jwtRepo;
         this.organisationController = organisationController;
         this.roleController = roleController;
     }
@@ -80,11 +72,10 @@ public class UserController {
         log.info("request for getting user with data {}", userVerificationDto);
 
         User user = userRepo.findByLoginAndPassword(userVerificationDto.getLogin(),
-                userVerificationDto.getPassword());
-        if (user == null) {
-            throw new ResourceNotFoundException("Not found user with login = " + userVerificationDto.getLogin() +
-                    " and password = " + userVerificationDto.getPassword());
-        }
+                userVerificationDto.getPassword()).orElseThrow(() ->
+                new ResourceNotFoundException("Not found user with login = " + userVerificationDto.getLogin() +
+                        " and password = " + userVerificationDto.getPassword()));
+
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -106,14 +97,6 @@ public class UserController {
 
         log.info("request for creating user with parameters {}", user);
 
-        String jwt_token = JWT.create()
-                .withSubject(user.getFirstName())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                .withClaim("login", user.getLogin())
-                .withClaim("password", user.getPassword())
-                .sign(Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8)));
-
-        jwtRepo.save(new Jwt(user, jwt_token));
         return new ResponseEntity<>(userRepo.save(user), HttpStatus.OK);
     }
 
