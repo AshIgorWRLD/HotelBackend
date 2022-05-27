@@ -154,10 +154,10 @@ public class CustomApartmentDto {
                     .append(highestValue);
         } else {
             if (lowestValue != null) {
-                stringBuilder.append(" > ")
+                stringBuilder.append(" >= ")
                         .append(lowestValue);
             } else {
-                stringBuilder.append(" < ")
+                stringBuilder.append(" <= ")
                         .append(highestValue);
             }
         }
