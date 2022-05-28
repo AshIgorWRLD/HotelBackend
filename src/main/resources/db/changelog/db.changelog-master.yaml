@@ -32,3 +32,5 @@ databaseChangeLog:
       file: db/changelog/insertion/insert-service-table.sql
   - include:
       file: db/changelog/insertion/insert-services-hotels-table.sql
+  - include:
+      file: db/changelog/insertion/insert-user-table.sql
