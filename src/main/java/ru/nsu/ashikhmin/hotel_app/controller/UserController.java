@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ashikhmin.hotel_app.dto.UserDto;
 import ru.nsu.ashikhmin.hotel_app.dto.UserVerificationDto;
-import ru.nsu.ashikhmin.hotel_app.entity.Hotel;
 import ru.nsu.ashikhmin.hotel_app.entity.Organisation;
 import ru.nsu.ashikhmin.hotel_app.entity.Role;
 import ru.nsu.ashikhmin.hotel_app.entity.User;

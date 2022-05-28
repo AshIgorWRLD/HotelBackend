@@ -28,16 +28,16 @@ public class HotelController {
     private final HotelRepo hotelRepo;
 
     @Autowired
-    public HotelController(HotelRepo hotelRepo){
+    public HotelController(HotelRepo hotelRepo) {
         this.hotelRepo = hotelRepo;
     }
 
     @GetMapping
     @ApiOperation("Получение списка отелей")
-    public ResponseEntity<List<Hotel>> list(){
+    public ResponseEntity<List<Hotel>> list() {
         log.info("request for getting all hotels");
         List<Hotel> hotels = hotelRepo.findAll();
-        if(hotels.isEmpty()){
+        if (hotels.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -58,7 +58,7 @@ public class HotelController {
 
     @PostMapping(consumes = {"*/*"})
     @ApiOperation("Создание нового отеля")
-    public ResponseEntity<Hotel> create(@Valid @RequestBody Hotel hotel){
+    public ResponseEntity<Hotel> create(@Valid @RequestBody Hotel hotel) {
         log.info("request for creating hotel with parameters {}", hotel);
 
         return new ResponseEntity<>(hotelRepo.save(hotel), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class HotelController {
     @PutMapping("{id}")
     @ApiOperation("Обновление информации о существующем отеле")
     public ResponseEntity<Hotel> update(@PathVariable("id") long id,
-                                       @Valid @RequestBody Hotel hotel){
+                                        @Valid @RequestBody Hotel hotel) {
         log.info("request for updating hotel by id {} with parameters {}",
                 id, hotel);
 
@@ -93,7 +93,7 @@ public class HotelController {
 
     @DeleteMapping
     @ApiOperation("Удаление всех отелей")
-    public ResponseEntity<HttpStatus> deleteAll(){
+    public ResponseEntity<HttpStatus> deleteAll() {
         log.info("request for deleting all hotels");
         hotelRepo.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

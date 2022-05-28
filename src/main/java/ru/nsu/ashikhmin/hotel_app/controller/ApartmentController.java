@@ -23,7 +23,6 @@ import ru.nsu.ashikhmin.hotel_app.utils.SQLAdds;
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Validated
@@ -38,6 +37,7 @@ public class ApartmentController {
 
     private final HotelRepo hotelRepo;
     private final EntityManager entityManager;
+
     @Autowired
     public ApartmentController(ApartmentRepo apartmentRepo, HotelRepo hotelRepo,
                                EntityManager entityManager) {
@@ -85,7 +85,7 @@ public class ApartmentController {
                 .append(SQLAdds.APARTMENT_TABLE)
                 .append(" ");
 
-        if(customApartmentDto.isNotEmpty()){
+        if (customApartmentDto.isNotEmpty()) {
             Boolean[] isNotFirst = new Boolean[1];
             isNotFirst[0] = false;
             sqlRequest.append(SQLAdds.WHERE)

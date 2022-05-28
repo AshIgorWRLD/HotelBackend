@@ -84,20 +84,20 @@ public class CustomApartmentDto {
         return lowestAvailableCount != null || highestAvailableCount != null;
     }
 
-    public void addHotels(StringBuilder stringBuilder, Boolean[] isNotFirst){
-        if(!isHotel()){
+    public void addHotels(StringBuilder stringBuilder, Boolean[] isNotFirst) {
+        if (!isHotel()) {
             return;
         }
         if (isNotFirst[0]) {
             stringBuilder.append(" ")
                     .append(SQLAdds.AND);
-        }else{
+        } else {
             isNotFirst[0] = true;
         }
         Integer hotelAmount = countHotelAmount();
         stringBuilder.append(" (");
-        for(int i = 0; i < hotelAmount; i++){
-            if(i > 0){
+        for (int i = 0; i < hotelAmount; i++) {
+            if (i > 0) {
                 stringBuilder.append(" ")
                         .append(SQLAdds.OR)
                         .append(" ");
@@ -109,14 +109,14 @@ public class CustomApartmentDto {
         stringBuilder.append(")");
     }
 
-    public void addSearchQuery(StringBuilder stringBuilder, Boolean[] isNotFirst){
-        if(!isSearchQuery()){
+    public void addSearchQuery(StringBuilder stringBuilder, Boolean[] isNotFirst) {
+        if (!isSearchQuery()) {
             return;
         }
         if (isNotFirst[0]) {
             stringBuilder.append(" ")
                     .append(SQLAdds.AND);
-        }else{
+        } else {
             isNotFirst[0] = true;
         }
         stringBuilder.append(" ")
@@ -137,7 +137,7 @@ public class CustomApartmentDto {
         if (isNotFirst[0]) {
             stringBuilder.append(" ")
                     .append(SQLAdds.AND);
-        }else{
+        } else {
             isNotFirst[0] = true;
         }
         stringBuilder.append(" ")
