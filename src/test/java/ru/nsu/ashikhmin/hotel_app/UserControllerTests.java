@@ -1,44 +1,29 @@
 package ru.nsu.ashikhmin.hotel_app;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.annotation.Before;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nsu.ashikhmin.hotel_app.controller.UserController;
-import ru.nsu.ashikhmin.hotel_app.dto.UserDto;
 import ru.nsu.ashikhmin.hotel_app.entity.Role;
 import ru.nsu.ashikhmin.hotel_app.entity.User;
 import ru.nsu.ashikhmin.hotel_app.repository.OrganisationRepo;
 import ru.nsu.ashikhmin.hotel_app.repository.RoleRepo;
 import ru.nsu.ashikhmin.hotel_app.repository.UserRepo;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static ru.nsu.ashikhmin.hotel_app.utils.TestUtils.getJsonFileContent;
 
 @WebMvcTest(UserController.class)
 class UserControllerTests {
@@ -126,6 +111,4 @@ class UserControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
                         Matchers.is("Kobtsev")));
     }
-
-
 }
