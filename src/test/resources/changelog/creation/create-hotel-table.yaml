@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-hotel-table
+      author: postgres
+      password: 123
+      changes:
+        - createTable:
+            tableName: hotels
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: stars
+                  type: INTEGER
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: floors_total
+                  type: INTEGER
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: apartments_amount
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: true

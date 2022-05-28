@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-apartment-table
+      author: postgres
+      password: 123
+      changes:
+        - createTable:
+            tableName: apartments
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: floor
+                  type: INTEGER
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: rooms_total
+                  type: INTEGER
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: price_per_day
+                  type: INTEGER
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: hotel_id
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: false
+                    foreignKeyName: cat_h_id_h_id
+                    references: hotels(id)
+                    deleteCascade: true
+              - column:
+                  name: name
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: available_count
+                  type: BIGINT
+                  constraints:
+                    unique: false
+                    nullable: false

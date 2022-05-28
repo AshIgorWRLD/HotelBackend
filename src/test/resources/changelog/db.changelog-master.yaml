@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - include:
+      file: db/changelog/creation/create-organisation-table.yaml
+  - include:
+      file: db/changelog/creation/create-role-table.yaml
+  - include:
+      file: db/changelog/creation/create-user-table.yaml
+  - include:
+      file: db/changelog/creation/create-jwt-table.yaml
+  - include:
+      file: db/changelog/creation/create-debt-table.yaml
+  - include:
+      file: db/changelog/creation/create-complaint-table.yaml
+  - include:
+      file: db/changelog/creation/create-hotel-table.yaml
+  - include:
+      file: db/changelog/creation/create-rent-table.yaml
+  - include:
+      file: db/changelog/creation/create-apartment-table.yaml
+  - include:
+      file: db/changelog/creation/create-service-table.yaml
+  - include:
+      file: db/changelog/creation/create-services-hotels-table.yaml
+  - include:
+      file: db/changelog/insertion/insert-role-table.sql
+  - include:
+      file: db/changelog/insertion/insert-hotel-table.sql
+  - include:
+      file: db/changelog/insertion/insert-apartment-table.sql
+  - include:
+      file: db/changelog/insertion/insert-service-table.sql
+  - include:
+      file: db/changelog/insertion/insert-services-hotels-table.sql
+  - include:
+      file: db/changelog/insertion/insert-user-table.sql
