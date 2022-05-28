@@ -61,11 +61,8 @@ public class RoleController {
     public ResponseEntity<Role> getOneByName(@PathVariable("name") String name) {
         log.info("request for getting role with name: {}", name);
 
-        Role role = roleRepo.findByName(name);
-        if (role == null) {
-            throw new ResourceNotFoundException(
-                    "Not found role with name = " + name);
-        }
+        Role role = roleRepo.findByName(name).orElseThrow(() ->
+                new ResourceNotFoundException("Not found role with name = " + name));
 
         return new ResponseEntity<>(role, HttpStatus.OK);
     }

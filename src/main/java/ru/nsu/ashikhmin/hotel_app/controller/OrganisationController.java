@@ -16,6 +16,7 @@ import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Validated
@@ -61,10 +62,8 @@ public class OrganisationController {
     public ResponseEntity<Organisation> getOneByName(@PathVariable("name") String name) {
         log.info("request for getting organisation with name: {}", name);
 
-        Organisation organisation = organisationRepo.findByName(name);
-        if (organisation == null) {
-            throw new ResourceNotFoundException("Not found organisation with name = " + name);
-        }
+        Organisation organisation = organisationRepo.findByName(name).orElseThrow(() ->
+                new ResourceNotFoundException("Not found organisation with name = " + name));
 
         return new ResponseEntity<>(organisation, HttpStatus.OK);
     }
