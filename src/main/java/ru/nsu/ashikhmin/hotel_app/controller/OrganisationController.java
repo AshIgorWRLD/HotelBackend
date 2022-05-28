@@ -16,7 +16,6 @@ import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Validated

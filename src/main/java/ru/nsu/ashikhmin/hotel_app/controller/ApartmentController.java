@@ -16,13 +16,13 @@ import ru.nsu.ashikhmin.hotel_app.entity.Apartment;
 import ru.nsu.ashikhmin.hotel_app.entity.Hotel;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
 import ru.nsu.ashikhmin.hotel_app.repository.ApartmentRepo;
+import ru.nsu.ashikhmin.hotel_app.repository.HotelRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 import ru.nsu.ashikhmin.hotel_app.utils.SQLAdds;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Validated
@@ -35,13 +35,14 @@ public class ApartmentController {
 
     private final ApartmentRepo apartmentRepo;
 
-    private final HotelController hotelController;
+    private final HotelRepo hotelRepo;
     private final EntityManager entityManager;
+
     @Autowired
-    public ApartmentController(ApartmentRepo apartmentRepo, HotelController hotelController,
+    public ApartmentController(ApartmentRepo apartmentRepo, HotelRepo hotelRepo,
                                EntityManager entityManager) {
         this.apartmentRepo = apartmentRepo;
-        this.hotelController = hotelController;
+        this.hotelRepo = hotelRepo;
         this.entityManager = entityManager;
     }
 
@@ -84,7 +85,7 @@ public class ApartmentController {
                 .append(SQLAdds.APARTMENT_TABLE)
                 .append(" ");
 
-        if(customApartmentDto.isNotEmpty()){
+        if (customApartmentDto.isNotEmpty()) {
             Boolean[] isNotFirst = new Boolean[1];
             isNotFirst[0] = false;
             sqlRequest.append(SQLAdds.WHERE)
@@ -114,9 +115,10 @@ public class ApartmentController {
     @ApiOperation("Создание новых апартаментов")
     public ResponseEntity<Apartment> create(@Valid @RequestBody ApartmentDto apartmentDto) {
         log.info("request for creating apartment from data source {}", apartmentDto);
-        ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
-                apartmentDto.getHotelId());
-        Hotel hotel = hotelResponseEntity.getBody();
+        Hotel hotel = hotelRepo.findById(
+                apartmentDto.getHotelId()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found hotel with id = " + apartmentDto.getHotelId()));
+
         Apartment apartment = new Apartment(apartmentDto.getFloor(), apartmentDto.getRoomsTotal(),
                 apartmentDto.getPricePerDay(), hotel, apartmentDto.getName(),
                 apartmentDto.getDescription(), apartmentDto.getAvailableCount());
@@ -131,11 +133,11 @@ public class ApartmentController {
     public ResponseEntity<Apartment> update(@PathVariable("id") long id,
                                             @Valid @RequestBody ApartmentDto apartmentDto) {
         log.info("request for updating apartment from data source {}", apartmentDto);
-        ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
-                apartmentDto.getHotelId());
-        Hotel body = hotelResponseEntity.getBody();
+        Hotel hotel = hotelRepo.findById(
+                apartmentDto.getHotelId()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found hotel with id = " + apartmentDto.getHotelId()));
         Apartment apartment = new Apartment(apartmentDto.getFloor(), apartmentDto.getRoomsTotal(),
-                apartmentDto.getPricePerDay(), body, apartmentDto.getName(),
+                apartmentDto.getPricePerDay(), hotel, apartmentDto.getName(),
                 apartmentDto.getDescription(), apartmentDto.getAvailableCount());
 
         log.info("request for updating apartment by id {} with parameters {}",

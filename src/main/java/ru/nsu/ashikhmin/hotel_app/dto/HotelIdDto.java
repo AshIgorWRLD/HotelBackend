@@ -11,7 +11,7 @@ public class HotelIdDto {
     private Long hotelId;
 
     @Override
-    public String toString(){
+    public String toString() {
         return "HotelIdDto{hotelId=" + this.hotelId + "}";
     }
 }

@@ -13,6 +13,7 @@ import ru.nsu.ashikhmin.hotel_app.dto.ServiceDto;
 import ru.nsu.ashikhmin.hotel_app.entity.Hotel;
 import ru.nsu.ashikhmin.hotel_app.entity.Service;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
+import ru.nsu.ashikhmin.hotel_app.repository.HotelRepo;
 import ru.nsu.ashikhmin.hotel_app.repository.ServiceRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 
@@ -30,12 +31,12 @@ public class ServiceController {
 
     private final ServiceRepo serviceRepo;
 
-    private final HotelController hotelController;
+    private final HotelRepo hotelRepo;
 
     @Autowired
-    public ServiceController(ServiceRepo serviceRepo, HotelController hotelController) {
+    public ServiceController(ServiceRepo serviceRepo, HotelRepo hotelRepo) {
         this.serviceRepo = serviceRepo;
-        this.hotelController = hotelController;
+        this.hotelRepo = hotelRepo;
     }
 
     @GetMapping
@@ -66,9 +67,9 @@ public class ServiceController {
     @ApiOperation("Создание нового сервиса")
     public ResponseEntity<Service> create(@Valid @RequestBody ServiceDto serviceDto) {
         log.info("request for creating service from data source {}", serviceDto);
-        ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
-                serviceDto.getHotelId());
-        Hotel hotel = hotelResponseEntity.getBody();
+        Hotel hotel = hotelRepo.findById(
+                serviceDto.getHotelId()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found hotel with id = " + serviceDto.getHotelId()));
         List<Hotel> list = new ArrayList<>();
         list.add(hotel);
         Service service = new Service(serviceDto.getName(), serviceDto.isAdditional(),
@@ -84,9 +85,9 @@ public class ServiceController {
     public ResponseEntity<Service> update(@PathVariable("id") long id,
                                           @Valid @RequestBody ServiceDto serviceDto) {
         log.info("request for updating service from data source {}", serviceDto);
-        ResponseEntity<Hotel> hotelResponseEntity = hotelController.getOne(
-                serviceDto.getHotelId());
-        Hotel hotel = hotelResponseEntity.getBody();
+        Hotel hotel = hotelRepo.findById(
+                serviceDto.getHotelId()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found hotel with id = " + serviceDto.getHotelId()));
         Service service = new Service(serviceDto.getName(), serviceDto.isAdditional(),
                 serviceDto.getTotalPrice(), serviceDto.getDescription(), null);
 

@@ -15,6 +15,8 @@ import ru.nsu.ashikhmin.hotel_app.entity.Organisation;
 import ru.nsu.ashikhmin.hotel_app.entity.Role;
 import ru.nsu.ashikhmin.hotel_app.entity.User;
 import ru.nsu.ashikhmin.hotel_app.exceptions.ResourceNotFoundException;
+import ru.nsu.ashikhmin.hotel_app.repository.OrganisationRepo;
+import ru.nsu.ashikhmin.hotel_app.repository.RoleRepo;
 import ru.nsu.ashikhmin.hotel_app.repository.UserRepo;
 import ru.nsu.ashikhmin.hotel_app.utils.NullProperty;
 
@@ -31,15 +33,15 @@ public class UserController {
 
     private final UserRepo userRepo;
 
-    private final OrganisationController organisationController;
-    private final RoleController roleController;
+    private final OrganisationRepo organisationRepo;
+    private final RoleRepo roleRepo;
 
     @Autowired
-    public UserController(UserRepo userRepo, OrganisationController organisationController,
-                          RoleController roleController) {
+    public UserController(UserRepo userRepo, OrganisationRepo organisationRepo,
+                          RoleRepo roleRepo) {
         this.userRepo = userRepo;
-        this.organisationController = organisationController;
-        this.roleController = roleController;
+        this.organisationRepo = organisationRepo;
+        this.roleRepo = roleRepo;
     }
 
     @GetMapping
@@ -86,13 +88,15 @@ public class UserController {
         log.info("request for creating user from data source {}", userDto);
         Organisation organisation = null;
         if (userDto.getOrganisationId() != null) {
-            ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
-                    userDto.getOrganisationId());
-            organisation = organisationResponseEntity.getBody();
+            organisation = organisationRepo.findById(
+                    userDto.getOrganisationId()).orElseThrow(() -> new ResourceNotFoundException(
+                    "Not found organisation with id = " + userDto.getOrganisationId()));
         }
-        ResponseEntity<Role> roleResponseEntity = roleController.getOneByName(userDto.getRole());
+        Role role = roleRepo.findByName(
+                userDto.getRole()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found role with name = " + userDto.getRole()));
         User user = new User(userDto.getLogin(), userDto.getPassword(), userDto.getEmail(),
-                userDto.getFirstName(), userDto.getLastName(), roleResponseEntity.getBody(),
+                userDto.getFirstName(), userDto.getLastName(), role,
                 userDto.getCreatedAt(), userDto.getUpdatedAt(), organisation);
 
         log.info("request for creating user with parameters {}", user);
@@ -108,13 +112,15 @@ public class UserController {
         log.info("request for updating user from data source {}", userDto);
         Organisation organisation = null;
         if (userDto.getOrganisationId() != null) {
-            ResponseEntity<Organisation> organisationResponseEntity = organisationController.getOneById(
-                    userDto.getOrganisationId());
-            organisation = organisationResponseEntity.getBody();
+            organisation = organisationRepo.findById(
+                    userDto.getOrganisationId()).orElseThrow(() -> new ResourceNotFoundException(
+                    "Not found organisation with id = " + userDto.getOrganisationId()));
         }
-        ResponseEntity<Role> roleResponseEntity = roleController.getOneByName(userDto.getRole());
+        Role role = roleRepo.findByName(
+                userDto.getRole()).orElseThrow(() -> new ResourceNotFoundException(
+                "Not found role with name = " + userDto.getRole()));
         User user = new User(userDto.getLogin(), userDto.getPassword(), userDto.getEmail(),
-                userDto.getFirstName(), userDto.getLastName(), roleResponseEntity.getBody(),
+                userDto.getFirstName(), userDto.getLastName(), role,
                 userDto.getCreatedAt(), userDto.getUpdatedAt(), organisation);
         log.info("request for updating user by id {} with parameters {}",
                 id, user);
